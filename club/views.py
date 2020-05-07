@@ -20,6 +20,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
     # inverse order as date_posted
     ordering = ['-date_posted']
+    paginate_by = 5
 
 
 class PostDetailView(DetailView):
