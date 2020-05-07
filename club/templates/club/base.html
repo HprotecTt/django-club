@@ -49,8 +49,15 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.username }}'s Profile</a>
+                {% if user.is_staff %}
+                  <a class="nav-item nav-link" href="/admin">Admin</a>
+                {% endif %}
+                {% if user.profile.role is 1 %}
+                  <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+                  <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.username }} (Prisdent)</a>
+                {% elif user.profile.role is 2 %}
+                  <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.username }} (Student)</a>
+                {% endif %}
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>

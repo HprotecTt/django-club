@@ -4,11 +4,18 @@ from PIL import Image
 
 # Create your models here.
 
+ROLES = {
+    'PRESIDENT': 1,
+    'NORMAL': 2
+}
+
 
 class Profile(models.Model):
     # if user is delete, also delete profile
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    # default user role is a normal user, and can only update by super admin
+    role = models.PositiveSmallIntegerField(default=ROLES['NORMAL'])
 
     def __str__(self):
         return f'{self.user.username} Profile'
