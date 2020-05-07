@@ -16,6 +16,7 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    # use it as redirect
+    # reverse will return the full path as a string
     def get_absolute_url(self):
-        # reverse will return the full path as a string
         return reverse('post-detail', kwargs={'pk': self.pk})
