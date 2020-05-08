@@ -32,4 +32,4 @@ class Join(models.Model):
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.date_joined
+        return f'{self.user.username} -> {self.post.title}'

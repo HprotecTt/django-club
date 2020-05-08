@@ -77,7 +77,20 @@
         <div class="col-md-4">
           <div class="content-section">
             <h3>Sidebar</h3>
-            <p class='text-muted'>Useful Pages.
+            {% if user.is_authenticated %}
+            <div class="media mt-3">
+              <img
+                class="rounded-circle account-img"
+                style='width:60px; height:60px;'
+                src="{{ user.profile.image.url }}"
+              />
+              <div class="media-body">
+                <h5 >{{ user.username }}</h5>
+                <p class="text-secondary">{{ user.email }}</p>
+              </div>  
+            </div>
+            {% endif %}
+            <p class='text-muted'>
               <ul class="list-group">
                 {% if user.is_staff %}
                 <li class="list-group-item list-group-item-light">
@@ -86,12 +99,17 @@
                 {% endif %}
                 {% if user.profile.role is 1 %}
                 <li class="list-group-item list-group-item-light">
-                  <a href="{% url 'profile' %}">{{ user.username }} (Prisdent)</a>
+                  <a href="{% url 'profile' %}">Profile (Prisdent)</a>
                 </li>
                 {% endif %}
                 {% if user.profile.role is 2 %}
                 <li class="list-group-item list-group-item-light">
-                  <a href="{% url 'profile' %}">{{ user.username }} (Student)</a>
+                  <a href="{% url 'profile' %}">Profile (Student)</a>
+                </li>
+                {% endif %}
+                {% if user.profile.role is 1 or user.is_staff %}
+                <li class="list-group-item list-group-item-light">
+                  <a href="{% url 'club-users' %}">See Users</a>
                 </li>
                 {% endif %}
                 <li class="list-group-item list-group-item-light">Announcements</li>

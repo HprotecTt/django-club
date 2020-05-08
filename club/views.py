@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Post, Join
 
 # Create your views here.
 
@@ -92,3 +92,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'club/about.html', {'title': 'About'})
+
+
+class JoinListView(ListView):
+    model = Join
+    template_name = 'club/join_home.html'
+    context_object_name = 'joins'
+    paginate_by = 5
+
+    def get_queryset(self):
+        post = get_object_or_404(Post, pk=self.kwargs.get('pk'))
+        return Join.objects.filter(post=post).order_by('-date_joined')
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'club/users.html'
+    context_object_name = 'users'
+    paginate_by = 8
