@@ -27,6 +27,7 @@
     <h2 class="article-title">{{ object.title }}</h2>
     <p class="article-content">{{ object.content }}</p>
     <p class="article-content">{{ post.location }}<br/>{{ post.date_start }} to {{ post.date_end }} </p>
+    <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'join-create' object.id %}">Join Now</a>
     <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'join-by-post' object.id %}">See Joined User</a>
   </div>
 </article>

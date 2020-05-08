@@ -5,8 +5,12 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Join
+import logging
 
 # Create your views here.
+
+# Get an instance of a logger
+logger = logging.getLogger('django')
 
 
 def home(request):
@@ -92,6 +96,29 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'club/about.html', {'title': 'About'})
+
+
+def joinCreate(request, pk):
+    context = {}
+    join = Join()
+    post = get_object_or_404(Post, pk=pk)
+    count = len(Join.objects.filter(user=request.user, post=post))
+    logger.debug(f'count ======== {count}')
+    if count is 0:
+        is_joined = False
+        join.user = request.user
+        join.post = post
+        join.save()
+    else:
+        is_joined = True
+
+    context = {
+        'post_title': post.title,
+        'username': request.user.username,
+        'is_joined': is_joined
+    }
+
+    return render(request, 'club/join_create.html', context)
 
 
 class JoinListView(ListView):

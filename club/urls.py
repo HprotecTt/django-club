@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, JoinListView, UserListView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, JoinListView, UserListView, joinCreate
 from . import views
 
 urlpatterns = [
@@ -10,8 +10,9 @@ urlpatterns = [
     path('post/new/', PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
-    path('join/post=<int:pk>/', JoinListView.as_view(), name='join-by-post'),
-    path('join/user=<str:username>/',
+    path('join/new/?post_id=<int:pk>/', joinCreate, name='join-create'),
+    path('join/?post_id=<int:pk>/', JoinListView.as_view(), name='join-by-post'),
+    path('join/?user_id=<str:username>/',
          JoinListView.as_view(), name='join-by-user'),
     path('users/', UserListView.as_view(), name='club-users'),
     path('about/', views.about, name='club-about'),

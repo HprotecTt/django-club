@@ -1,0 +1,7 @@
+{% extends "club/base.html" %} {% block content %}
+{% if is_joined %}
+<h1>You have joined, don't need to join again!</h1>
+{% else %}
+<h1>{{ username }} join to {{ post_title }} successfully!</h1>
+{% endif %}
+{% endblock %}
