@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -98,6 +99,7 @@ def about(request):
     return render(request, 'club/about.html', {'title': 'About'})
 
 
+@login_required
 def joinCreate(request, pk):
     context = {}
     join = Join()
@@ -121,7 +123,8 @@ def joinCreate(request, pk):
     return render(request, 'club/join_create.html', context)
 
 
-class JoinListView(ListView):
+# Join List filter by post
+class JoinListView(LoginRequiredMixin, ListView):
     model = Join
     template_name = 'club/join_home.html'
     context_object_name = 'joins'
@@ -132,7 +135,19 @@ class JoinListView(ListView):
         return Join.objects.filter(post=post).order_by('-date_joined')
 
 
-class UserListView(ListView):
+# Join List filter by user
+class UserJoinListView(LoginRequiredMixin, ListView):
+    model = Join
+    template_name = 'club/join_by_user.html'
+    context_object_name = 'joins'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.request.user.username)
+        return Join.objects.filter(user=user).order_by('-date_joined')
+
+
+class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'club/users.html'
     context_object_name = 'users'

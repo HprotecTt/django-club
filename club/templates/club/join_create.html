@@ -4,4 +4,9 @@
 {% else %}
 <h1>{{ username }} join to {{ post_title }} successfully!</h1>
 {% endif %}
+<div class="border-top pt-3">
+  <small class="text-muted">
+    <a href="{% url 'join-by-user' %}">See My Joined Activity</a>
+  </small>
+</div>
 {% endblock %}
