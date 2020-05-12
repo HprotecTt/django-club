@@ -39,6 +39,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'club-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'club-list' %}">Clubs</a>
               <a class="nav-item nav-link" href="{% url 'club-about' %}">About</a>
             </div>
             <!-- Navbar Right Side -->
@@ -109,6 +110,9 @@
                 {% endif %}
                 <li class="list-group-item list-group-item-light">
                   <a href="{% url 'join-by-user' %}">My Joined Activity</a>
+                </li>
+                <li class="list-group-item list-group-item-light">
+                  <a href="{% url 'attend-by-user' %}">My Attended Activity</a>
                 </li>
                 <li class="list-group-item list-group-item-light">Announcements</li>
                 <li class="list-group-item list-group-item-light">Calendars</li>

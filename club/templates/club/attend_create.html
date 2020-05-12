@@ -1,0 +1,12 @@
+{% extends "club/base.html" %} {% block content %}
+{% if is_attended %}
+<h1>You have attended, don't need to attend again!</h1>
+{% else %}
+<h1>{{ username }} attend to {{ club_title }} successfully!</h1>
+{% endif %}
+<div class="border-top pt-3">
+  <small class="text-muted">
+    <a href="{% url 'attend-by-user' %}">See My Attended Clubs</a>
+  </small>
+</div>
+{% endblock %}

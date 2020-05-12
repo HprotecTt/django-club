@@ -1,0 +1,20 @@
+{% extends "club/base.html" %} {% block content %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <h2 class="article-title">{{ object.title }}</h2>
+    </div>
+    <p class="article-content">{{ object.description }}</p>
+    <p class="article-content">{{ object.location }}</p>
+    <p class="article-content">President: <a class="mr-2" href="{% url 'user-posts' object.president.username %}">{{ object.president }}</a></p>
+    {% if user.is_authenticated %}
+      {% if user.profile.role is 1 %}
+        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'attend-by-club' object.id %}">See Associators</a>
+      {% else %}
+        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'attend-create' object.id %}">Attend Now</a>
+        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'attend-by-club' object.id %}">See Associators</a>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+{% endblock content%}

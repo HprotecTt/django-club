@@ -1,12 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+import logging
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseForbidden
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Join
-import logging
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
+from .models import Attend, Club, Join, Post
 
 # Create your views here.
 
@@ -152,3 +155,65 @@ class UserListView(LoginRequiredMixin, ListView):
     template_name = 'club/users.html'
     context_object_name = 'users'
     paginate_by = 8
+
+
+# Club
+class ClubListView(ListView):
+    model = Club
+    template_name = 'club/club_home.html'
+    context_object_name = 'clubs'
+    # inverse order as date_posted
+    ordering = ['-date_created']
+    paginate_by = 5
+
+
+class ClubDetailView(DetailView):
+    model = Club
+
+
+@login_required
+def attendCreate(request, pk):
+    context = {}
+    attend = Attend()
+    club = get_object_or_404(Club, pk=pk)
+    count = len(Attend.objects.filter(user=request.user, club=club))
+    logger.debug(f'count ======== {count}')
+    if count is 0:
+        is_attended = False
+        attend.user = request.user
+        attend.club = club
+        attend.save()
+    else:
+        is_attended = True
+
+    context = {
+        'club_title': club.title,
+        'username': request.user.username,
+        'is_attended': is_attended
+    }
+
+    return render(request, 'club/attend_create.html', context)
+
+
+# Attend List filter by post
+class AttendListView(LoginRequiredMixin, ListView):
+    model = Attend
+    template_name = 'club/attend_home.html'
+    context_object_name = 'attends'
+    paginate_by = 5
+
+    def get_queryset(self):
+        club = get_object_or_404(Club, pk=self.kwargs.get('pk'))
+        return Attend.objects.filter(club=club).order_by('-date_attended')
+
+
+# Attend List filter by user
+class UserAttendListView(LoginRequiredMixin, ListView):
+    model = Attend
+    template_name = 'club/attend_by_user.html'
+    context_object_name = 'attends'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.request.user.username)
+        return Attend.objects.filter(user=user).order_by('-date_attended')

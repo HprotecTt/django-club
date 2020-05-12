@@ -1,0 +1,35 @@
+{% extends "club/base.html" %} {% block content %} {% for club in clubs %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <h2>
+        <a class="article-title" href="{% url 'club-detail' club.id %}">{{ club.title }}</a>
+      </h2>
+    </div>
+    <p class="article-content">{{ club.description }}</p>
+    <p class="article-content">{{ club.location }}</p>
+    <p class="article-content">President: <a class="mr-2" href="{% url 'user-posts' club.president.username %}">{{ club.president }}</a></p>
+  </div>
+</article>
+{% endfor %} 
+{% if is_paginated %}
+  {% if page_obj.has_previous %}
+    <a class='btn btn-outline-info mb-4' href='?page=1'>First</a>
+    <a class='btn btn-outline-info mb-4' href='?page={{ page_obj.previous_page_number }}'><</a>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+      <a class='btn btn-info mb-4' href='?page={{ num }}'>{{ num }}</a>
+    {% elif num > page_obj.number|add:'-3' and  num < page_obj.number|add:'3' %}
+      <a class='btn btn-outline-info mb-4' href='?page={{ num }}'>{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <a class='btn btn-outline-info mb-4' href='?page={{ page_obj.next_page_number }}'>></a>
+    <a class='btn btn-outline-info mb-4' href='?page={{ page_obj.paginator.num_pages }}'>Last</a>
+  {% endif %}
+
+{% endif %}
+{% endblock content %}
