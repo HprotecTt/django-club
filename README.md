@@ -62,6 +62,8 @@ python manage.py runserver
 | ![Xnip2020-05-08_16-18-58](https://raw.githubusercontent.com/AbyssLink/pic/master/uPic/05-08-2020_191943.jpg) | ![Xnip2020-05-08_16-19-06](https://raw.githubusercontent.com/AbyssLink/pic/master/uPic/05-08-2020_191945.jpg) |
 | 某 User 参加的活动列表页面                                   | 某活动报名的 User 列表页面                                   |
 | ![Xnip2020-05-08_16-44-20](https://raw.githubusercontent.com/AbyssLink/pic/master/uPic/05-08-2020_191946.jpg) | ![Xnip2020-05-08_16-44-49](https://raw.githubusercontent.com/AbyssLink/pic/master/uPic/05-08-2020_191948.jpg) |
+| Club 列表                                                    | Club 下的社员                                                |
+| ![Xnip2020-05-13_12-08-56](/Users/chiya/Pictures/picto_compress/Xnip2020-05-13_12-08-56.jpg) | ![Xnip2020-05-13_12-10-06](/Users/chiya/Pictures/picto_compress/Xnip2020-05-13_12-10-06.jpg) |
 
 
 
@@ -86,8 +88,13 @@ python manage.py runserver
 │   ├── templates						# club 模版
 │   │   └── club
 │   │       ├── about.html		# 关于页面
+│   │				├── attend_by_user.html		# 当前用户参加的社团列表页
+│   │       ├── attend_create.html		# 用户参加社团后返回页
+│   │       ├── attend_home.html			# 当前社团参加的用户列表页
 │   │       ├── base.html			# 基础页面（页面框架）
-│   │       ├── home.html			# 主页
+│   │       ├── club_detail.html			# 社团详情页
+│   │       ├── club_home.html				# 社团列表页
+│   │       ├── home.html			# 主页（现实活动列表）
 │   │       ├── join_by_user.html		# 当前用户参加的活动列表页
 │   │       ├── join_create.html		# 用户参加活动后返回页
 │   │       ├── join_home.html			# 当前活动参与的用户列表页
@@ -141,9 +148,9 @@ python manage.py runserver
 
 #### ER 图 
 
-Django 自带了许多的辅助类，看上去有些杂乱..
+Django 自带了许多的辅助类，看上去有些杂乱..只截图了自建的实体和关系
 
-![](https://raw.githubusercontent.com/AbyssLink/pic/master/uPic/05-08-2020_175917.jpg)
+![Xnip2020-05-13_12-04-41](/Users/chiya/Pictures/picto_compress/Xnip2020-05-13_12-04-41.jpg)
 
 
 
